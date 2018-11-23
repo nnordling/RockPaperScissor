@@ -1,0 +1,53 @@
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.App {
+  text-align: center;
+  height: 100vh;
+  background-image: linear-gradient(#34495e, #5e3449);
+}
+
+.scoreboard {
+  padding: .25rem;
+  color: #fff;
+}
+
+.scoreboard ul {
+  border: .05rem solid #fff;
+  border-radius: .25rem;
+}
+
+.scoreboard li {
+  padding: .50rem .75rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: .1rem #333 solid;
+}
+
+.scoreboard li:last-child {
+  border-bottom: none;
+}
+
+.outcome {
+  color: #fff;
+}
+
+.showHistory {
+  height: 50vh;
+  overflow-y: auto;
+}
+
+.historyList {
+  margin-top: 1rem;
+  list-style: disc;
+  padding: .5rem;
+}
+
+.historyList li {
+  background-color: transparent;
+  color: #fff;
+  text-align: left;
+  border: none;
+  padding: .50rem;
+}
