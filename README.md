@@ -1,1 +1,1 @@
-"# RockPaperScissor" 
+Rock, Paper, Scissor, Lizard, Spock
