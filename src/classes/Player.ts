@@ -1,3 +1,11 @@
+import { Weapon } from "./Weapons";
+
 export default class Player {
-  constructor(public name: string, public weapon: string, public winAgainst: string[]) {}
+  public weapon: Weapon | undefined;
+  constructor(public name: string) {
+  }
+
+  public selectedWeapon = (weapon: Weapon) => {
+    this.weapon = weapon;
+  }
 }

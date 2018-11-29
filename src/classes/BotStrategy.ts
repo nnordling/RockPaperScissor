@@ -1,97 +1,80 @@
 import Player from "./Player";
-import { getAllWeapons, lizard, paper, rock, scissor, spock, Weapon, WeaponName } from "./Weapons";
-
+import { getAllWeapons, getWeaponByName, lizard, paper, rock, scissor, spock, Weapon } from "./Weapons";
 
 export default class BotStrategy {
   public randomWeapon = (bot: Player) => {
-    console.log("Random");
-    bot.winAgainst = [];
-
+    // Bot picks a weapon at random
     let randomWeapon = getAllWeapons[Math.floor(Math.random() * getAllWeapons.length)];
-
-    bot.weapon = randomWeapon.name;
-    // randomWeapon.winAgainst.map(weapon => bot.winAgainst.push(weapon));
-    bot.winAgainst = randomWeapon.winAgainst;
-    console.log("bot winAgainst", bot.winAgainst);
-    // console.log("=", bot.winAgainst = randomWeapon.winAgainst);
-    // console.log("push", randomWeapon.winAgainst.map(weapon => bot.winAgainst.push(weapon)))
+    bot.selectedWeapon(randomWeapon);
   };
 
-  public mostWinsWeapon = (winnerHistory: Weapon[], bot: Player) => {
-    console.log("Most Wins");
-    bot.winAgainst = [];
-    let rockWins = winnerHistory.filter(rock => rock.name === WeaponName.Rock);
-    let paperWins = winnerHistory.filter(paper => paper.name === WeaponName.Paper);
-    let scissorWins = winnerHistory.filter(scissor => scissor.name === WeaponName.Scissor);
-    let lizardWins = winnerHistory.filter(lizard => lizard.name === WeaponName.Lizard);
-    let spockWins = winnerHistory.filter(spock => spock.name === WeaponName.Spock);
+  public counterPreviousWinner = (
+    detailedHistory: Array<{ round: number; result: string; winner: Player | undefined }>,
+    bot: Player
+  ) => {
+    // Bot have a bigger chance of picking a weapon that would've beaten the previous winning weapon
+    if (detailedHistory.length > 0) {
+      detailedHistory.map(history => {
+        // Return this.randomWeapon(bot) if history.winner or history.winner.weapon === undefined
+        if (history.winner !== undefined) {
+          if (history.winner.weapon !== undefined) {
+            let weaponsArray = [rock, paper, scissor, lizard, spock];
+            history.winner.weapon.loseAgainst.map(selectWeapon => {
+              let weapons = getWeaponByName(selectWeapon);
 
-    let history = [rockWins, paperWins, scissorWins, lizardWins, spockWins];
-    let mostWins = history.sort((a: Weapon[], b: Weapon[]) => b.length - a.length);
-    console.log(mostWins.length);
-    mostWins.length === 0
-      ? this.randomWeapon(bot)
-      : mostWins[0].map(weapon => {
-        bot.weapon = weapon.name;
-        bot.winAgainst = weapon.winAgainst;
-        console.log(bot.winAgainst);
+              weaponsArray.push(weapons);
+            });
+            bot.selectedWeapon(weaponsArray[Math.floor(Math.random() * weaponsArray.length)]);
+          }
+        }
       });
-  };
-
-  public previousWinnerPattern = (winnerHistory: Weapon[], bot: Player) => {
-    console.log("PreviousWinner");
-    bot.winAgainst = [];
-    if (winnerHistory.length !== 0) {
-      console.log(winnerHistory);
-      let previousWin = winnerHistory[winnerHistory.length - 1];
-      this.getPreviousWinnerWeapon(previousWin.name, bot);
     } else {
       this.randomWeapon(bot);
     }
   };
 
-  public getPreviousWinnerWeapon = (weapon: string, bot: Player) => {
-    switch (weapon) {
-      case ("Rock"): {
-        bot.weapon = rock.name;
-        rock.winAgainst.map(rockWin => {
-          bot.winAgainst.push(rockWin)
-        });
-        break;
+  public theScientificWay = (
+      detailedHistory: Array<{ round: number; result: string; winner: Player | undefined }>,
+      bot: Player
+    ) => {
+      let beatPreviousWinner: Weapon[] = [];
+      if (detailedHistory.length > 0) {
+        let previousRound = detailedHistory[detailedHistory.length - 1];
+        if (previousRound.winner !== undefined) {
+          if (previousRound.winner.weapon !== undefined) {
+            if (previousRound.winner.name !== bot.name) {
+              // Bot lost previous round and will pick a weapon that would've beaten the winner of previous round
+              previousRound.winner.weapon.loseAgainst.map(weapon => {
+                let weapons = getWeaponByName(weapon);
+                if (weapons !== undefined)  {
+                  beatPreviousWinner.push(weapons);
+                }
+              });
+              bot.selectedWeapon(beatPreviousWinner[Math.floor(Math.random() * beatPreviousWinner.length)]);
+              return;
+
+            } else if (previousRound.winner.name === bot.name) {
+              // Bot won previous round (i.e Rock)
+              // User will most likely play something that would beat Bot's previous winning hand (Paper, Spock)
+              // Therefor Bot will anticipate and counter that move (Scissor, Lizard, Lizard, Paper)
+              let anticipateUserPick: Weapon[] = [];
+              let botWeaponPool: Weapon[] = [];
+              previousRound.winner.weapon.loseAgainst.map(weapon => {
+                anticipateUserPick.push(getWeaponByName(weapon));
+              });
+
+              anticipateUserPick.map(userWeapon => {
+                userWeapon.loseAgainst.map(weapon => {
+                  botWeaponPool.push(getWeaponByName(weapon));
+                });
+              });
+
+              bot.selectedWeapon(botWeaponPool[Math.floor(Math.random() * botWeaponPool.length)]);
+              return;
+            }
+          }
+        }
       }
-      case ("Paper"): {
-        bot.weapon =  paper.name;
-        paper.winAgainst.map(paperWin => {
-          bot.winAgainst.push(paperWin)
-        });
-        break;
-      }
-      case ("Scissor"): {
-        bot.weapon =  scissor.name;
-        scissor.winAgainst.map(scissorWin => {
-          bot.winAgainst.push(scissorWin)
-        });
-        break;
-      }
-      case ("Lizard"): {
-        bot.weapon =  lizard.name;
-        lizard.winAgainst.map(lizardWin => {
-          bot.winAgainst.push(lizardWin)
-        });
-        break;
-      }
-      case ("Spock"): {
-        bot.weapon =  spock.name;
-        spock.winAgainst.map(spockWin => {
-          bot.winAgainst.push(spockWin)
-        });
-        break;
-      }
-    }
+      this.randomWeapon(bot);
   };
-
-  public dynamicPattern = (winnerHistory: Weapon[], bot: Player) => {
-
-    console.log(winnerHistory, bot);
-  }
 }

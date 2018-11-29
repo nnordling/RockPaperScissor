@@ -10,10 +10,10 @@ export default class ListWeapons extends React.Component<any, {}> {
   };
 
   public render() {
-    let weapons = getAllWeapons.map(weapon => {
+    let weapons = getAllWeapons.map((weapon, index) => {
       return (
         <button
-          key={weapon.id}
+          key={index}
           onClick={this.handlePickWeapon(weapon)}
           type="button"
           className="btn btn-outline-secondary"
@@ -23,8 +23,8 @@ export default class ListWeapons extends React.Component<any, {}> {
       );
     });
     return (
-      <div className="weapons">
-        <div className="btn-group mt-2" role="group">
+      <div className="listWeapons">
+        <div className="btn-group" role="group">
           {weapons}
         </div>
       </div>
