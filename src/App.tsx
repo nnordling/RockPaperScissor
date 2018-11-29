@@ -16,6 +16,10 @@ import "./App.css";
 
 @observer
 class App extends React.Component {
+  private bot = new Player("Bot");
+  private user = new Player("User");
+  private botStrategy = new BotStrategy();
+
   @observable private result = "";
   @observable private userWins = 0;
   @observable private botWins = 0;
