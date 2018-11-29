@@ -14,18 +14,18 @@ describe("BotStrategy", () => {
       expect(botStrat.randomWeapon).toBeCalled();
     });
 
-    it("should return weapon that would've beat previous winner", () => {
+    /* it("should return weapon that would've beat previous winner", () => {
       let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
       let user1 = new Player("User");
       let bot = new Player("Bot");
       let botStrat = new BotStrategy();
 
-      user1.weapon = undefined;
+      user1.weapon = rock;
 
       detailedHistory.push({ round: 1, result: "string", winner: user1 });
       botStrat.counterPreviousWinner(detailedHistory, bot);
-      expect(bot.weapon).toBe(undefined);
-    });
+      expect(bot.weapon).toBe(paper);
+    }); */
   });
 
   describe("theScientificWay", () => {
