@@ -25,12 +25,12 @@ export default class BotStrategy {
               weaponsArray.push(weapons);
             });
             bot.selectedWeapon(weaponsArray[Math.floor(Math.random() * weaponsArray.length)]);
+            return;
           }
         }
       });
-    } else {
-      this.randomWeapon(bot);
     }
+    this.randomWeapon(bot);
   };
 
   public theScientificWay = (
