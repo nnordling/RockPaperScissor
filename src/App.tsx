@@ -2,10 +2,10 @@ import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 
-// import GameSettings from "./components/GameSettings";
+import GameSettings from "./components/GameSettings";
 import ListWeapons from "./components/ListWeapons";
 import MainArea from "./components/MainArea";
-import NewGameSettings from "./components/NewGameSettings";
+// import NewGameSettings from "./components/NewGameSettings";
 import Scoreboard from "./components/Scoreboard";
 
 import Store from "./classes/Store";
@@ -38,7 +38,7 @@ class App extends React.Component {
   public render() {
     return (
       <div className="flexContainer">
-        <NewGameSettings chooseBotStrategy={this.store.chooseBotStrategy} bot={this.store.bot}/>
+        <GameSettings chooseBotStrategy={this.store.chooseBotStrategy} bot={this.store.bot}/>
         <Scoreboard
           userWins={this.store.userWins}
           botWins={this.store.botWins}

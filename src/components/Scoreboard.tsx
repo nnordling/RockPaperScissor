@@ -31,7 +31,7 @@ export default class Scoreboard extends React.Component<ScoreboardProps, {}> {
           <li className="list-group-item d-flex justify-content-between align-items-center">
             Round:
             <span className="badge badge-primary badge-pill">
-              {this.props.round + 1}
+              {this.props.round }
             </span>
           </li>
           <li className="list-group-item d-flex justify-content-between align-items-center">

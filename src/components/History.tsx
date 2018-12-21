@@ -3,7 +3,7 @@ import * as React from "react"
 import Player from "../classes/Player";
 
 interface HistoryProps {
-  history: Array<{round:number, result: string, winner: undefined | Player}>;
+  history: Array<{round:number, result: string, winner: Player | undefined}>;
 }
 
 @observer
@@ -19,7 +19,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 
     return (
       <div className="showHistory">
-        <ul className="list-group historyList">{history}</ul>
+        <ul className="list-group historyList">{}</ul>
       </div>
     );
   }
