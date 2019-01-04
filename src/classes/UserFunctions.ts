@@ -8,7 +8,6 @@ export default class UserFunctions {
 
   @action
   public userPickWeapon = (weapon: Weapon) => {
-    this.store.chooseBotStrategy(this.store.chosenBotStrategy, this.store.bot);
     this.store.user.selectedWeapon(weapon);
   };
 
@@ -25,6 +24,7 @@ export default class UserFunctions {
           if (!this.store.user.isReady) {
             this.youWereTooSlow();
           }
+          this.store.declareWinner(this.store.user, this.store.bot);
           clearInterval(timer);
           setTimeout(
             action(() => {

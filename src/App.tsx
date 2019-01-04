@@ -1,4 +1,4 @@
-import { reaction } from "mobx";
+// import { reaction } from "mobx";
 import { observer } from "mobx-react";
 import * as React from "react";
 
@@ -16,7 +16,7 @@ import "./App.css";
 @observer
 class App extends React.Component {
 
-  constructor(name: string) {
+  /*constructor(name: string) {
     super(name);
     reaction(
       () => this.store.user.isReady,
@@ -26,7 +26,7 @@ class App extends React.Component {
         }
       }
     );
-  }
+  }*/
 
   private store = new Store();
   private userFunc = new UserFunctions(this.store);
