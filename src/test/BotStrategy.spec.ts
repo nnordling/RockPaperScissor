@@ -3,51 +3,35 @@ import Player from "../classes/Player";
 import { paper, rock, scissor } from "../classes/Weapons";
 
 describe("BotStrategy", () => {
-  describe("counterPreviousWinner", () => {
+  let botStrat = new BotStrategy();
+  let bot = new Player("Bot");
+  let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
+
+  describe("pickRandomWeapon", () => {
     it("should call randomWeapon() if detailedHistory < 0", () => {
-      let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
-      let bot = new Player("Bot");
-      let botStrat = new BotStrategy();
       botStrat.randomWeapon = jest.fn();
 
       botStrat.counterPreviousWinner(detailedHistory, bot);
       expect(botStrat.randomWeapon).toBeCalled();
     });
-
-    /* it("should return weapon that would've beat previous winner", () => {
-      let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
-      let user1 = new Player("User");
-      let bot = new Player("Bot");
-      let botStrat = new BotStrategy();
-
-      user1.weapon = rock;
-
-      detailedHistory.push({ round: 1, result: "string", winner: user1 });
-      botStrat.counterPreviousWinner(detailedHistory, bot);
-      expect(bot.weapon).toBe(paper);
-    }); */
   });
 
   describe("theScientificWay", () => {
-    it("should play weapon that would've beat previous winner", () => {
-      let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
+    // User won previous round
+    it("Bot should play weapon that would've beat previous winner", () => {
       let user2 = new Player("User");
-      let bot = new Player("Bot");
-      let botStrat = new BotStrategy();
 
       user2.weapon = rock;
       Math.random = jest.fn(() => 0);
 
       detailedHistory.push({ round: 1, result: "string", winner: user2 });
       botStrat.theScientificWay(detailedHistory, bot);
-      expect(bot.weapon).toBe(paper);
+      expect(bot.weapon).toBe(paper)
     });
 
-    it("should anticipate user weapon and counter", () => {
-      let detailedHistory: Array<{ round: number; result: string; winner: Player }> = [];
-      let bot = new Player("Bot");
+    // Bot won previous round
+    it("Bot should anticipate user weapon and counter", () => {
       let prevWinner = new Player("Bot");
-      let botStrat = new BotStrategy();
 
       Math.random = jest.fn(() => 0);
 
