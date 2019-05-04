@@ -22,15 +22,14 @@ export default class Store {
   @action
   public declareWinner = (user: Player, bot: Player) => {
     if (user.weapon !== undefined && bot.weapon !== undefined) {
-      if (user.weapon.winAgainst.indexOf(bot.weapon.name) !== -1) {
-        // User win
+      let userWin = user.weapon.winAgainst.indexOf(bot.weapon.name) !== -1;
+      let botWin = bot.weapon.winAgainst.indexOf(user.weapon.name) !== -1;
+
+      if (userWin || !userWin && !botWin) {
+        // User win or tie
         this.resultOfRound(user, bot);
-      } else if (bot.weapon.winAgainst.indexOf(user.weapon.name) !== -1) {
-        // Bot win
-        this.resultOfRound(bot, user);
       } else {
-        // Tie
-        this.resultOfRound(user, bot);
+        this.resultOfRound(bot, user);
       }
     }
 

@@ -13,9 +13,7 @@ export default class MainArea extends React.Component<ResultProps, {}> {
     return (
       <div className="mainArea">
         <h1 className="timer">{this.props.timer}</h1>
-
           <h6 className="mt-2 mb-2 text-center resultPreviousRound">{this.props.result}</h6>
-
       </div>
     );
   }
