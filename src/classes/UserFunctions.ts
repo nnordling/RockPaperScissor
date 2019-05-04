@@ -9,6 +9,10 @@ export default class UserFunctions {
   @action
   public userPickWeapon = (weapon: Weapon) => {
     this.store.user.selectedWeapon(weapon);
+
+    if (this.store.user.weapon !== undefined) {
+      this.store.chooseBotStrategy(this.store.chosenBotStrategy, this.store.bot);
+    }
   };
 
   public timer = () => {
@@ -34,7 +38,7 @@ export default class UserFunctions {
           );
         }
       }),
-      400
+      600
     );
   };
 
